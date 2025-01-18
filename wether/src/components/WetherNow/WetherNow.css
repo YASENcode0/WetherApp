@@ -4,9 +4,6 @@
    height: 50%;
    display: flex;
    flex-direction: column;
-   border: solid #0000004f;
-   border-radius: 15px;
-   padding: 5px;
 }
 .wether-box1 {
    width: 100%;
@@ -14,7 +11,7 @@
    display: flex;
    flex-direction: column;
 }
-.wether-box1 p{
+.wether-box1 p {
    /* background-color: red; */
    width: 100%;
    display: flex;
@@ -35,6 +32,7 @@
    width: 50%;
    height: 100%;
    display: flex;
+
    align-items: center;
    justify-content: center;
 }
@@ -43,6 +41,7 @@
 }
 .box1-2 {
    display: flex;
+   flex-direction: column;
    align-items: center;
    justify-content: center;
 }

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./WetherNow.css";
 
 export default function WetherNow({ wetherData }) {
+   console.log(wetherData?.current?.condition?.icon);
    return (
       <div className="wether-box">
          <div className="wether-box1">
@@ -21,9 +22,10 @@ export default function WetherNow({ wetherData }) {
             </div>
             <div className="box1-2">
                <h2>
-                  {wetherData?.tempC}
+                  {wetherData?.current?.temp_c}
                   <span>C</span>
                </h2>
+               <h3>{wetherData?.current?.condition?.text}</h3>
             </div>
          </div>
       </div>

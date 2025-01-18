@@ -6,19 +6,26 @@ import { useEffect, useState } from "react";
 
 function App() {
    const [wetherData, setWetherData] = useState({});
+   const [lonLat, setLonLat] = useState({});
 
    useEffect(() => {
       getCurrantWetherData();
    }, []);
 
    async function getCurrantWetherData() {
-      const { data } = await axios.get(
-         "http://api.weatherapi.com/v1/current.json?key=c6c49a390bf340bea5465106251801&q=31.2615081,34.8320866&aqi=yes"
-      );
-      console.log(data);
-      setWetherData({
-         location: data?.location,
-         tempC: data?.current?.temp_c,
+      navigator.geolocation.getCurrentPosition(async (d) => {
+         const { data } = await axios
+            .get(
+               `http://api.weatherapi.com/v1/current.json?key=c6c49a390bf340bea5465106251801&q=${d?.coords?.latitude},${d?.coords?.longitude}&aqi=yes`
+            )
+            .catch((err) => {
+               console.log(err.message);
+            });
+         console.log(data);
+         setWetherData({
+            location: data?.location,
+            current: data?.current,
+         });
       });
    }
 
