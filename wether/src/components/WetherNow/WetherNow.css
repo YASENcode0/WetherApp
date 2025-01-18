@@ -1,0 +1,58 @@
+.wether-box {
+   /* background-color: red; */
+   width: 100%;
+   height: 50%;
+   display: flex;
+   flex-direction: column;
+   border: solid #0000004f;
+   border-radius: 15px;
+   padding: 5px;
+}
+.wether-box1 {
+   width: 100%;
+   height: 20%;
+   display: flex;
+   flex-direction: column;
+}
+.wether-box1 p{
+   /* background-color: red; */
+   width: 100%;
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+}
+.wether-box1 h1 {
+   margin-left: 10px;
+}
+.wether-box2 {
+   width: 100%;
+   height: 80%;
+   display: flex;
+}
+.box1-1,
+.box1-2 {
+   /* background-color: blue; */
+   width: 50%;
+   height: 100%;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+.box1-1 img {
+   width: 100%;
+}
+.box1-2 {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+.box1-2 h2 {
+   font-size: 5rem;
+   position: relative;
+}
+.box1-2 span {
+   font-size: x-large;
+   position: absolute;
+   top: 0;
+   right: -10px;
+}

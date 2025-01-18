@@ -1,0 +1,12 @@
+.nav-bar {
+   width: calc(100% - 20px);
+   height: 7%;
+   display: flex;
+   align-items: center;
+   justify-content: start;
+   padding-left: 20px;
+}
+.nav-bar button{
+    all: unset;
+    font-size: x-large;
+}
