@@ -5,8 +5,8 @@
 }
 .main-box1 {
   display: flex;
-  justify-content: space-between;
-  height: 10%;
+  justify-content: space-around;
+  height: 15%;
 }
 .main-box1 h3 {
   display: flex;

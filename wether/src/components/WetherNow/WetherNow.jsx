@@ -3,15 +3,7 @@ import "./WetherNow.css";
 import { wetherIcons } from "../../App";
 
 export default function WetherNow({ wetherData }) {
-  console.log(wetherData?.current);
-
-  function getCurrentImg() {
-    const img = wetherIcons.filter((i) => {
-      return i.name === "moon" && i.link;
-    });
-
-    return img[0].link;
-  }
+  console.log(wetherData?.current?.condition);
 
   return (
     <div className="wether-box">
@@ -25,7 +17,7 @@ export default function WetherNow({ wetherData }) {
       </div>
       <div className="wether-box2">
         <div className="box1-1">
-          <img src={getCurrentImg()} alt="wether" />
+          <img src={wetherData?.current?.condition.icon} alt="wether" />
         </div>
         <div className="box1-2">
           <h2>
