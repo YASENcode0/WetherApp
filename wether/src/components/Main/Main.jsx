@@ -9,19 +9,19 @@ import { ImDroplet } from "react-icons/im";
 import { LuWind } from "react-icons/lu";
 import { MdVisibility } from "react-icons/md";
 
-export default function Main({ wetherData }) {
+export default function Main({ wetherData, currMarker }) {
   const [weakData, setWeakData] = useState([]);
   useEffect(() => {
     getWeakData();
   }, []);
 
   async function getWeakData() {
-    navigator.geolocation.getCurrentPosition(async (d) => {
+    if (currMarker.lat) {
       const { data } = await axios.get(
-        `https://api.weatherapi.com/v1/forecast.json?key=c6c49a390bf340bea5465106251801&q=${d?.coords?.latitude},${d?.coords?.longitude}&aqi=yes&days=7`
+        `https://api.weatherapi.com/v1/forecast.json?key=c6c49a390bf340bea5465106251801&q=${currMarker?.lat},${currMarker?.lng}&aqi=yes&days=7`
       );
       setWeakData(data?.forecast?.forecastday);
-    });
+    }
   }
 
   return (
@@ -46,7 +46,7 @@ export default function Main({ wetherData }) {
           <h3>Visibility</h3>
           <h3>
             <MdVisibility />
-            {wetherData?.current?.vis_km}
+            {wetherData?.current?.vis_km}km
           </h3>
         </div>
       </div>
@@ -54,7 +54,6 @@ export default function Main({ wetherData }) {
         <h2>The weak</h2>
         <div className="main-box3">
           {weakData?.map((day, i) => {
-            console.log(day)
             return (
               <div key={i} className="day-label">
                 <p>{i === 0 ? "Tody" : day?.date}</p>

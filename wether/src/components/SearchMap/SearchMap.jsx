@@ -3,6 +3,8 @@ import "./SearchMap.css";
 import { APIProvider, Map, Marker } from "@vis.gl/react-google-maps";
 import { MdOutlineSettingsBackupRestore } from "react-icons/md";
 import { FaLocationCrosshairs } from "react-icons/fa6";
+import { useNavigate } from "react-router-dom";
+import { MdAddLocationAlt } from "react-icons/md";
 
 export default function SearchMap({
   currMarker,
@@ -10,10 +12,22 @@ export default function SearchMap({
   setNewMarkerAsMarker,
 }) {
   const [search, setSearch] = useState("");
-  const [newMarker, setNewMarker] = useState({});
+  const [newMarker, setNewMarker] = useState(currMarker);
+
+  const navigate = useNavigate();
 
   function resetNewMarker() {
     setNewMarker(currMarker);
+  }
+  async function resetCurrMarker() {
+    await navigator.geolocation.getCurrentPosition((d) => {
+      const pin = {
+        lat: d.coords.latitude,
+        lng: d.coords.longitude,
+      };
+      setCurrMarker(pin);
+      setNewMarker(pin);
+    });
   }
 
   return (
@@ -54,14 +68,20 @@ export default function SearchMap({
           <button className="map-tools-btn-left" onClick={resetNewMarker}>
             <MdOutlineSettingsBackupRestore />
           </button>
-          <button
-            className="map-tools-btn-right"
-            onClick={() => {
-              setNewMarkerAsMarker(newMarker);
-            }}
-          >
-            <FaLocationCrosshairs />
-          </button>
+          <div className="map-tools-btns">
+            <button
+              className="map-tools-btn-right"
+              onClick={() => {
+                setNewMarkerAsMarker(newMarker);
+                navigate("/");
+              }}
+            >
+              <MdAddLocationAlt />
+            </button>
+            <button onClick={resetCurrMarker}>
+              <FaLocationCrosshairs />
+            </button>
+          </div>
         </div>
       </div>
     </APIProvider>

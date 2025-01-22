@@ -3,7 +3,6 @@ import "./WetherNow.css";
 import { wetherIcons } from "../../App";
 
 export default function WetherNow({ wetherData }) {
-  console.log(wetherData?.current?.condition);
 
   return (
     <div className="wether-box">

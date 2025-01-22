@@ -30,7 +30,7 @@
   z-index: 1;
   position: absolute;
   width: 80%;
-  height: 5rem;
+  height: fit-content;
   margin-bottom: 10%;
   display: flex;
   align-items: center;
@@ -47,4 +47,11 @@
   align-items: center;
   justify-content: center;
   font-size: xx-large;
+  margin-top: auto;
+}
+.map-tools-btns {
+  /* background-color: red; */
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
 }
