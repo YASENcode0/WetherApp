@@ -3,31 +3,50 @@ import NavBar from "./components/NavBar/NavBar";
 import Main from "./components/Main/Main";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import SearchMap from "./components/SearchMap/SearchMap";
 
 function App() {
   const [wetherData, setWetherData] = useState({});
   const [mode, setMode] = useState(false);
+  const [currMarker, setCurrMarker] = useState({});
+
+  function setNewMarkerAsMarker(Marker) {
+    setCurrMarker(Marker);
+    getCurrantWetherData(Marker);
+  }
 
   useEffect(() => {
+    navigator.geolocation.getCurrentPosition((d) => {
+      setCurrMarker(() => ({
+        lat: d.coords.latitude,
+        lng: d.coords.longitude,
+      }));
+      getCurrantWetherData(d.coords);
+    });
     getCurrantWetherData();
     const modeData = JSON.parse(localStorage.getItem("settings"));
     setMode(modeData?.mode);
   }, []);
 
-  async function getCurrantWetherData() {
-    navigator.geolocation.getCurrentPosition(async (d) => {
-      const { data } = await axios
-        .get(
-          `https://api.weatherapi.com/v1/current.json?key=c6c49a390bf340bea5465106251801&q=${d?.coords?.latitude},${d?.coords?.longitude}&aqi=yes`
-        )
-        .catch((err) => {
-          console.log(err.message);
-        });
+  /// fix the change current wether marker
+  async function getCurrantWetherData(Marker) {
+    const { data } = await axios
+      .get(
+        `https://api.weatherapi.com/v1/current.json?key=c6c49a390bf340bea5465106251801&q=${
+          currMarker?.lat || Marker?.latitude
+        },${currMarker?.lng || Marker?.longitude}&aqi=yes`
+      )
+      .catch((err) => {
+        console.log(err.message);
+        return { data: 0 };
+      });
+    if (data) {
       setWetherData({
         location: data?.location,
         current: data?.current,
       });
-    });
+    }
   }
 
   function modeSwitch() {
@@ -39,10 +58,24 @@ function App() {
   }
 
   return (
-    <div className={`App ${mode && "App-dark"}`}>
-      <NavBar modeSwitch={modeSwitch} mode={mode} />
-      <Main wetherData={wetherData} />
-    </div>
+    <Router>
+      <div className={`App ${mode && "App-dark"}`}>
+        <NavBar modeSwitch={modeSwitch} mode={mode} />
+        <Routes>
+          <Route path="/" element={<Main wetherData={wetherData} />} />
+          <Route
+            path="/map"
+            element={
+              <SearchMap
+                setNewMarkerAsMarker={setNewMarkerAsMarker}
+                currMarker={currMarker}
+                setCurrMarker={setCurrMarker}
+              />
+            }
+          />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 

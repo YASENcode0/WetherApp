@@ -16,6 +16,7 @@
   background-image: linear-gradient(to bottom right, #1e1e1e, #000, #1e1e1e);
   color: #fff;
 }
-.App-dark * {
+.App-dark input , .App-dark button{
   color: #fff;
+  background-color: #000;
 }

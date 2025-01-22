@@ -13,6 +13,16 @@
   font-size: x-large;
   /* background-color: red; */
 }
+.nav-back {
+  width: 30px;
+  width: 30px;
+  overflow: hidden;
+  display: flex;
+}
+.nav-back-btn {
+  transition: all ease-in-out 0.5s;
+}
+
 .switch-btn {
   background-color: #000 !important;
   width: 50px;
@@ -41,4 +51,10 @@
 .switch-btn-i-of {
   translate: -12px;
   background-color: #000;
+}
+
+.hide {
+  /* background-color: red; */
+  translate: -100px;
+  position: absolute;
 }
