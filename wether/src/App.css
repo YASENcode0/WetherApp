@@ -16,7 +16,10 @@
   background-image: linear-gradient(to bottom right, #1e1e1e, #000, #1e1e1e);
   color: #fff;
 }
-.App-dark input , .App-dark button{
+.App-dark .map-search-tools button{
   color: #fff;
-  background-color: #000;
+  background-color: #000 !important;
+}
+.App-dark .nav-back{
+  color: #fff !important;
 }

@@ -12,14 +12,20 @@ import { MdVisibility } from "react-icons/md";
 export default function Main({ wetherData, currMarker }) {
   const [weakData, setWeakData] = useState([]);
   useEffect(() => {
+    if(currMarker)
     getWeakData();
   }, []);
 
   async function getWeakData() {
-    if (currMarker.lat) {
-      const { data } = await axios.get(
-        `https://api.weatherapi.com/v1/forecast.json?key=c6c49a390bf340bea5465106251801&q=${currMarker?.lat},${currMarker?.lng}&aqi=yes&days=7`
-      );
+    console.log(currMarker);
+    if (currMarker?.lat) {
+      const { data } = await axios
+        .get(
+          `https://api.weatherapi.com/v1/forecast.json?key=c6c49a390bf340bea5465106251801&q=${currMarker?.lat},${currMarker?.lng}&aqi=yes&days=7`
+        )
+        .catch((err) => {
+          console.log(err.message);
+        });
       setWeakData(data?.forecast?.forecastday);
     }
   }

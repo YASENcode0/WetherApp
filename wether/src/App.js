@@ -2,7 +2,7 @@ import "./App.css";
 import NavBar from "./components/NavBar/NavBar";
 import Main from "./components/Main/Main";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import SearchMap from "./components/SearchMap/SearchMap";
 
@@ -12,18 +12,22 @@ function App() {
   const [wetherData, setWetherData] = useState({});
   const [mode, setMode] = useState(false);
   const [currMarker, setCurrMarker] = useState({});
+  const currRef = useRef(null);
 
   function setNewMarkerAsMarker(Marker) {
     setCurrMarker(Marker);
     getCurrantWetherData(Marker);
+    currRef.current = Marker;
   }
 
   useEffect(() => {
+    console.log("ref");
     navigator.geolocation.getCurrentPosition((d) => {
       const pin = {
         lat: d.coords.latitude,
         lng: d.coords.longitude,
       };
+      currRef.current = pin;
       setCurrMarker(pin);
       getCurrantWetherData(pin);
     });
@@ -33,20 +37,23 @@ function App() {
   }, []);
 
   async function getCurrantWetherData(Marker) {
-    console.log(Marker);
-    const { data } = await axios
-      .get(
-        `https://api.weatherapi.com/v1/current.json?key=c6c49a390bf340bea5465106251801&q=${Marker?.lat},${Marker?.lng}&aqi=yes`
-      )
-      .catch((err) => {
-        console.log(err.message);
-        return { data: 0 };
-      });
-    if (data) {
-      setWetherData({
-        location: data?.location,
-        current: data?.current,
-      });
+    try {
+      const { data } = await axios
+        .get(
+          `https://api.weatherapi.com/v1/current.json?key=c6c49a390bf340bea5465106251801&q=${Marker?.lat},${Marker?.lng}&aqi=yes`
+        )
+        .catch((err) => {
+          console.log(err.message);
+          return { data: 0 };
+        });
+      if (data) {
+        setWetherData({
+          location: data?.location,
+          current: data?.current,
+        });
+      }
+    } catch (err) {
+      console.log(err);
     }
   }
 
@@ -65,7 +72,11 @@ function App() {
         <Routes>
           <Route
             path="/"
-            element={<Main currMarker={currMarker} wetherData={wetherData} />}
+            element={
+              currRef?.current && (
+                <Main currMarker={currRef?.current} wetherData={wetherData} />
+              )
+            }
           />
           <Route
             path="/map"

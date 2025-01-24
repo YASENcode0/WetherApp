@@ -1,6 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./SearchMap.css";
-import { APIProvider, Map, Marker } from "@vis.gl/react-google-maps";
+import {
+  APIProvider,
+  Map,
+  Marker,
+  MapControl,
+  ControlPosition,
+} from "@vis.gl/react-google-maps";
 import { MdOutlineSettingsBackupRestore } from "react-icons/md";
 import { FaLocationCrosshairs } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
@@ -13,6 +19,7 @@ export default function SearchMap({
 }) {
   const [search, setSearch] = useState("");
   const [newMarker, setNewMarker] = useState(currMarker);
+  const mapRef = useRef(null);
 
   const navigate = useNavigate();
 
@@ -30,11 +37,14 @@ export default function SearchMap({
     });
   }
 
+  function handelSearch(value) {}
+
   return (
     <APIProvider apiKey={"AIzaSyA_01vV-UG-8kyxW5K-IntxTPOHQURDsME"}>
       <div className="search-map">
         <div className="map">
           <Map
+            mapId={"28355e4ee977dae7"}
             onClick={(e) => {
               const latlng = e.detail.latLng;
               setNewMarker({ lat: latlng.lat, lng: latlng.lng });
@@ -48,6 +58,7 @@ export default function SearchMap({
             gestureHandling={"greedy"}
             disableDefaultUI={true}
             mapTypeId={"roadmap"}
+            
           >
             <Marker
               position={{
@@ -56,14 +67,20 @@ export default function SearchMap({
               }}
             />
           </Map>
+          <MapControl position={ControlPosition.TOP}>
+            <div>
+              <div onPlaceSelect={setSearch} />
+            </div>
+          </MapControl>
         </div>
-        <input
+        {/* <input
           type="search"
           className="map-search-input"
           onChange={(e) => {
             setSearch(e.target.value);
+            handelSearch(e.target.value);
           }}
-        />
+        /> */}
         <div className="map-search-tools">
           <button className="map-tools-btn-left" onClick={resetNewMarker}>
             <MdOutlineSettingsBackupRestore />
